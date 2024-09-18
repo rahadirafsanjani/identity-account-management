@@ -13,6 +13,19 @@ Doorkeeper.configure do
     #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
   end
 
+  resource_owner_authenticator do
+    current_user || redirect_to(new_user_session_url)
+  end
+
+  access_token_expires_in 2.hours
+  
+  use_refresh_token
+
+  default_scopes  :public
+
+  grant_flows %w[password authorization_code client_credentials]
+
+
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for
   # adding oauth authorized applications. In other case it will return 403 Forbidden response
@@ -526,4 +539,6 @@ Doorkeeper.configure do
   # WWW-Authenticate Realm (default: "Doorkeeper").
   #
   # realm "Doorkeeper"
+  # 
+ 
 end
